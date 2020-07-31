@@ -1,0 +1,18 @@
+name: Test actions policies
+
+on: [workflow_dispatch]
+
+jobs:
+  public-action-same-org:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 'Execute action in public repo'
+        uses: wizard-whitebeard/public-action@master
+
+  public-action-same-ent:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 'Execute action in public repo'
+        uses: odlulu/public-action@master
