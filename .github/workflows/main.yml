@@ -17,9 +17,8 @@ jobs:
       - name: 'Execute action in public repo'
         uses: odlulu/public-action@master
   
-  codeql-action:
+  public-action-different-ent:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v1
+        - uses: jenschelkopf/broadcast-action@1.0
