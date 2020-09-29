@@ -16,6 +16,20 @@ jobs:
     steps:
       - name: 'Execute action in public repo'
         uses: odlulu/public-action@master
+
+  internal-action-same-ent:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 'Execute action in public repo'
+        uses: odlulu/internal-action@master
+
+  private-action-same-ent:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 'Execute action in public repo'
+        uses: odlulu/private-action@master
   
   public-action-different-ent:
     runs-on: ubuntu-latest
