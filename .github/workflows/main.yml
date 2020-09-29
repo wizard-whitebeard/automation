@@ -29,3 +29,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+
+  verified-creator:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: atlassian/gajira-cli@master
