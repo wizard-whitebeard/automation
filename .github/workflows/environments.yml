@@ -1,0 +1,12 @@
+name: Test environments
+
+on: [workflow_dispatch]
+
+jobs:
+  env-no-protections:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
