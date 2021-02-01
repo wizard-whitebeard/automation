@@ -11,4 +11,5 @@ jobs:
       - name: Dump GitHub context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+          super_secret: ${{ secrets.ENV_SECRET }}
+        run: echo "$super_secret"
