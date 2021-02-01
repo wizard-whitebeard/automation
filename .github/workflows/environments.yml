@@ -5,6 +5,7 @@ on: [workflow_dispatch]
 jobs:
   env-no-protections:
     runs-on: ubuntu-latest
+    environment: test
     
     steps:
       - name: Dump GitHub context
