@@ -1,4 +1,2 @@
 # internal-repo
-
-MODIFIED
-AGAIN
+MODIFIED AGAIN

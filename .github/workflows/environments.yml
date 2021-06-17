@@ -1,0 +1,15 @@
+name: Test environments
+
+on: [workflow_dispatch]
+
+jobs:
+  env-no-protections:
+    runs-on: ubuntu-latest
+    environment: test
+    
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+          super_secret: ${{ secrets.ENV_SECRET }}
+        run: echo "$super_secret"
