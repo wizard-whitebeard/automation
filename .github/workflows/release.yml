@@ -1,8 +1,8 @@
-name: Called
+name: Release
 on: [workflow_call]
 
 jobs:
-  called_job:
+  releaseb:
     runs-on: ubuntu-latest
     steps:
       - name: Dump GitHub context
