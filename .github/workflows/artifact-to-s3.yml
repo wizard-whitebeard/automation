@@ -6,6 +6,9 @@ on:
         description: Name of the GitHub artifact to upload
         type: string
         required: true
+env:
+  BUCKET_NAME : "waldocat-storage"
+  AWS_REGION : "us-east-2" 
 
 jobs:
   artifact-to-s3:
@@ -15,7 +18,7 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with: 
-          name: ${{ env.PACKAGE_NAME }}
+          name: ${{ inputs.artifact-name }}
 
       # Get ID token from GitHub OIDC provider
       - uses: actions/setup-node@v2
@@ -54,4 +57,4 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name:  Copy package to s3
-        run: aws s3 cp ${{ env.PACKAGE_NAME }} s3://${{ env.BUCKET_NAME }}/
+        run: aws s3 cp ${{ inputs.artifact-name }} s3://${{ env.BUCKET_NAME }}/
