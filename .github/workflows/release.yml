@@ -21,8 +21,8 @@ jobs:
 
     steps:
       - name: Checkout a private repo
-      uses: actions/checkout@v2
-      with:
-        repository: wizard-whitebeard/private-repo
-        ref: main
-        token: ${{ secrets.PAT }}
+        uses: actions/checkout@v2
+        with:
+          repository: wizard-whitebeard/private-repo
+          ref: main
+          token: ${{ secrets.PAT }}
