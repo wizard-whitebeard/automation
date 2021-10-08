@@ -2,46 +2,23 @@ name: Release
 on:
   workflow_call:
     inputs:
-      ring:
-        description: 'Identifier for the target deployment ring'
-        default: 'ring-0'
-        required: false
+      environment:
         type: string
+        required: false
+        default: staging
+    secrets:
+      environment_token:
+        required: true
 
 jobs:
-  deploy_to_review:
-    name: Deploy Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Dump inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: echo "$INPUTS"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
 
-  deploy_to_staging:
-    name: Deploy Staging
-    runs-on: ubuntu-latest
-    if: github.event.ref == 'refs/heads/main'
-    steps:
-      - name: Dump inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: echo "$INPUTS"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-  deploy_to_production_update:
+  deploy_to_production:
     name: Deploy Production
     runs-on: ubuntu-latest
-    if: github.event.ref == 'refs/heads/main'
-    needs: deploy_to_staging
+    environment: 
+      name: ${{ inputs.environment }}
+      url: https://github.com
+
     steps:
       - name: Dump inputs
         env:
