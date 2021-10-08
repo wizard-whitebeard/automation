@@ -20,6 +20,8 @@ jobs:
       url: https://github.com
 
     steps:
+      - name: Dump secret
+        run: echo ${{ secrets.environment_token }}
       - name: Dump inputs
         env:
           INPUTS: ${{ toJson(inputs) }}
