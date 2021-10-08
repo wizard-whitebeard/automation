@@ -7,7 +7,7 @@ on:
         required: false
         default: staging
     secrets:
-      environment_token:
+      PAT:
         required: true
 
 jobs:
@@ -20,13 +20,9 @@ jobs:
       url: https://github.com
 
     steps:
-      - name: Dump secret
-        run: echo ${{ secrets.environment_token }}
-      - name: Dump inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: echo "$INPUTS"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Checkout a private repo
+      uses: actions/checkout@v2
+      with:
+        repository: wizard-whitebeard/private-repo
+        ref: main
+        token: ${{ secrets.PAT }}
