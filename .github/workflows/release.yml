@@ -2,27 +2,52 @@ name: Release
 on:
   workflow_call:
     inputs:
-      environment:
-        type: string
+      ring:
+        description: 'Identifier for the target deployment ring'
+        default: 'ring-0'
         required: false
-        default: staging
-    secrets:
-      PAT:
-        required: true
+        type: string
 
 jobs:
+  deploy_to_review:
+    name: Deploy Review
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Dump inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: echo "$INPUTS"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
-  deploy_to_production:
+  deploy_to_staging:
+    name: Deploy Staging
+    runs-on: ubuntu-latest
+    if: github.event.ref == 'refs/heads/main'
+    steps:
+      - name: Dump inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: echo "$INPUTS"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+
+  deploy_to_production_update:
     name: Deploy Production
     runs-on: ubuntu-latest
-    environment: 
-      name: ${{ inputs.environment }}
-      url: https://github.com
-
+    if: github.event.ref == 'refs/heads/main'
+    needs: deploy_to_staging
     steps:
-      - name: Checkout a private repo
-        uses: actions/checkout@v2
-        with:
-          repository: wizard-whitebeard/private-repo
-          ref: main
-          token: ${{ secrets.PAT }}
+      - name: Dump inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: echo "$INPUTS"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
