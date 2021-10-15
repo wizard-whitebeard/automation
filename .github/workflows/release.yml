@@ -16,12 +16,14 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - name: Checkout a private repo
-        uses: actions/checkout@v2
-        with:
-          repository: wizard-whitebeard/private-repo
-          ref: main
-          token: ${{ secrets.PAT }}
+      - name: Dump inputs
+        env:
+          INPUTS: ${{ toJson(inputs) }}
+        run: echo "$INPUTS"
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
 
   deploy_to_staging:
     name: Deploy Staging
@@ -37,17 +39,15 @@ jobs:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
 
-  deploy_to_production_update:
+  deploy_to_production:
     name: Deploy Production
     runs-on: ubuntu-latest
     if: github.event.ref == 'refs/heads/main'
     needs: deploy_to_staging
     steps:
-      - name: Dump inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: echo "$INPUTS"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Checkout a private repo
+        uses: actions/checkout@v2
+        with:
+          repository: wizard-whitebeard/private-repo
+          ref: main
+          token: ${{ secrets.PAT }}
