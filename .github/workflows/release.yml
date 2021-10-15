@@ -2,11 +2,13 @@ name: Release
 on:
   workflow_call:
     inputs:
-      ring:
-        description: 'Identifier for the target deployment ring'
-        default: 'ring-0'
-        required: false
+      environment:
         type: string
+        required: false
+        default: staging
+    secrets:
+      PAT:
+        required: true
 
 jobs:
   deploy_to_review:
@@ -14,14 +16,12 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - name: Dump inputs
-        env:
-          INPUTS: ${{ toJson(inputs) }}
-        run: echo "$INPUTS"
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+      - name: Checkout a private repo
+        uses: actions/checkout@v2
+        with:
+          repository: wizard-whitebeard/private-repo
+          ref: main
+          token: ${{ secrets.PAT }}
 
   deploy_to_staging:
     name: Deploy Staging
