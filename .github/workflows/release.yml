@@ -6,9 +6,6 @@ on:
         type: string
         required: false
         default: staging
-    secrets:
-      PAT:
-        required: true
 
 jobs:
   deploy_to_review:
@@ -42,6 +39,7 @@ jobs:
   deploy_to_production:
     name: Deploy Production
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     if: github.event.ref == 'refs/heads/main'
     needs: deploy_to_staging
     steps:
