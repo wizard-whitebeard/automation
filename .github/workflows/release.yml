@@ -6,6 +6,9 @@ on:
         type: string
         required: false
         default: staging
+    secrets:
+      PAT:
+        required: true
 
 jobs:
   deploy_to_review:
