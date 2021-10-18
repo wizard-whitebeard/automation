@@ -7,8 +7,7 @@ on:
 #         required: false
 #         default: staging
     secrets:
-      PAT:
-        required: false
+      PAT
 
 jobs:
   deploy_to_review:
